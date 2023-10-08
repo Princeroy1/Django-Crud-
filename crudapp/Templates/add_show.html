@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-4">
+        <h4 class="text-center alert alert-info">Add New Student</h4>
+        <form method='POST' novalidate>{% csrf_token %}
+            {{form.as_p}}
+           <button class="btn btn-primary" type='Submit'>submit</button>
+        </form>
+    </div>
+    <div class="col-sm-7 offset-1">
+        <h4 class="text-center alert alert-info">Show information</h4>
+        {% if student %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">NAME</th>
+                  <th scope="col">EMAIL</th>
+                  <th scope="col">PASSWORD</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for stu in student %}
+                <tr>
+                  <th scope="row">{{stu.id}}</th>
+                  <td>{{stu.name}}</td>
+                  <td>{{stu.email}}</td>
+                  <td name="passwod">{{stu.password}}</td>
+                  <td> <a href="{% url 'update' stu.id %}" class='btn btn-warning btn-sm'>Edit</a>
+                   <form action="{% url 'delete' stu.id %}" method='POST' class='d-inline'>{% csrf_token %}
+                    <input type='submit'class='btn btn-danger 'value='delete'>
+             
+                   </form>
+                </tr>
+            
+                {% endfor %}
+              </tbody>
+          </table>
+        
+        {% else %}
+        <h4 class="text-center alert alert-info">No records</h4>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock content %}
